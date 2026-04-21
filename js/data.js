@@ -137,8 +137,8 @@ window.NODES = [
     stats: [{ k: 'Status', v: 'OPEN' }, { k: 'Response', v: '24 H' }, { k: 'Mode', v: 'REMOTE' }],
     chips: ['React', 'Next.js', 'React Native', 'TypeScript', 'Node.js'],
     contacts: [
-      { icon: 'EMAIL', label: 'dhruvdp.js@gmail.com',              href: 'mailto:dhruvdp.js@gmail.com' },
-      { icon: 'GITHUB', label: 'github.com/Dhruv-Parmar',           href: 'https://github.com/Dhruv-Parmar' },
+      { icon: 'EMAIL', label: 'letsconnectdhruv@gmail.com',              href: 'mailto:letsconnectdhruv@gmail.com' },
+      { icon: 'GITHUB', label: 'github.com/dhruvjsx',           href: 'https://github.com/dhruvjsx' },
       { icon: 'RESUME', label: 'Download CV',                       href: 'assets/Dhruv_Parmar_Resume.pdf' }
     ],
     // station 3D — gold/silver palette, no biome surface

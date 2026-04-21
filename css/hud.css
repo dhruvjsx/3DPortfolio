@@ -82,6 +82,18 @@
   font-weight: 300;
 }
 
+@media (max-width: 720px) { .hud-right { display: none; } }
+
+@media (max-width: 720px) {
+  .hud-top {
+    width: 80%;
+    left: 50%;
+    margin-left:auto;
+    margin-right: auto;
+ 
+  }
+}
+
 /* ---------- Bottom compass timeline ---------- */
 .compass {
   position: fixed;
@@ -89,7 +101,7 @@
   bottom: calc(var(--safe-b) + 20px);
   transform: translateX(-50%);
   width: min(560px, 88vw);
-  height: 46px;
+  height: 64px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 9.5px;
   color: var(--ink-dim);
@@ -142,7 +154,7 @@
 
 .compass .label {
   position: absolute;
-  top: calc(50% + 14px);
+  top: calc(50% + 12px);
   transform: translateX(-50%);
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -150,6 +162,11 @@
   white-space: nowrap;
   font-size: 9px;
   transition: color 0.3s;
+}
+
+.compass .label--above {
+  top: auto;
+  bottom: calc(50% + 12px);
 }
 
 /* ---------- Targeting reticle ---------- */
@@ -331,3 +348,5 @@
 .fab svg  { width: 18px; height: 18px; }
 
 @media (max-width: 720px) { .fab { display: grid; } }
+
+@media (max-width: 720px) { .compass .label-year { display: none; } }

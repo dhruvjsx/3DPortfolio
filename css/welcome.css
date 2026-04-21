@@ -67,18 +67,19 @@
 /* ---------- Controls reference grid ---------- */
 .controls-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 16px;
   margin: 36px auto 0;
-  max-width: 620px;
+  max-width: 360px;
   text-align: left;
 }
 
+/* hide mobile card on desktop, desktop card on mobile */
+.ctrl--mobile { display: none; }
+
 @media (max-width: 620px) {
-  .controls-grid {
-    grid-template-columns: 1fr;
-    max-width: 360px;
-  }
+  .ctrl--desktop { display: none; }
+  .ctrl--mobile  { display: block; }
 }
 
 .ctrl {

@@ -44,9 +44,13 @@
       compass.appendChild(node);
 
       const label = document.createElement('div');
-      label.className = 'label';
+      label.className = 'label' + (i % 2 === 1 ? ' label--above' : '');
       label.style.left = pct + '%';
-      label.textContent = def.isStation ? 'NOW · STATION' : def.yearShort + ' · ' + def.title;
+      if (def.isStation) {
+        label.innerHTML = '<span class="label-year">NOW · </span>STATION';
+      } else {
+        label.innerHTML = '<span class="label-year">' + def.yearShort + ' · </span>' + def.title;
+      }
       compass.appendChild(label);
     });
     updateCompass(0);
