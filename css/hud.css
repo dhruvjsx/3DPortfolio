@@ -1,6 +1,6 @@
 /* =====================================================================
    hud.css — All heads-up display elements: corners, top bar, right
-   panel, compass, reticle, id-card, collected counter, auto-drift pill,
+   panel, compass, reticle, id-card, auto-drift pill,
    mobile FAB navigation buttons.
    ===================================================================== */
 
@@ -217,38 +217,8 @@
 
 @media (max-width: 720px) { .id-card { display: none; } }
 
-/* ---------- Memory counter (bottom-right) ---------- */
-.collected {
-  position: fixed;
-  right: 24px;
-  bottom: calc(90px + var(--safe-b));
-  z-index: 4;
-  text-align: right;
-  font-family: 'JetBrains Mono', monospace;
-}
 
-.collected .k {
-  font-size: 9px;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--ink-faint);
-}
 
-.collected .v {
-  font-size: 22px;
-  font-weight: 300;
-  color: var(--ink);
-  font-family: 'Space Grotesk', sans-serif;
-  margin-top: 2px;
-}
-
-.collected .v em {
-  color: var(--ink-faint);
-  font-style: normal;
-  font-size: 13px;
-}
-
-@media (max-width: 720px) { .collected { display: none; } }
 
 /* ---------- Auto-drift toggle pill ---------- */
 .pill {

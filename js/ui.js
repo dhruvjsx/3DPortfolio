@@ -19,11 +19,9 @@
   const hudFrag   = document.getElementById('hud-frag');
   const hudLoc    = document.getElementById('hud-loc');
   const hudTime   = document.getElementById('hud-time');
-  const collected = document.getElementById('col-n');
   const hints     = document.getElementById('hints');
   const pill      = document.getElementById('autodrift');
 
-  let collectedSet = new Set();
   let autoOn = false;
   let autoTimer = null;
 
@@ -142,8 +140,7 @@
     hudLoc.textContent  = 'LOC — ' + (def.isStation ? 'STATION ALPHA' : def.title.toUpperCase());
     updateCompass(idx);
     if (approaching) {
-      collectedSet.add(idx);
-      collected.textContent = collectedSet.size;
+
       renderDossier(idx);
       openDossier();
     } else {

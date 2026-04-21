@@ -481,7 +481,7 @@
 
     // Floating label
     const labelText = def.isStation
-      ? 'CONTACT · STATION ALPHA'
+      ? 'Hire Me'
       : def.yearShort + '  ·  ' + def.title.toUpperCase();
     const tex = makeLabel(labelText, def.accent);
     const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false, opacity: 0.9 }));
