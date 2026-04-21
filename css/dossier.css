@@ -1,0 +1,274 @@
+/* =====================================================================
+   dossier.css — Holographic info panel (desktop: right drawer,
+   mobile: bottom sheet).
+   ===================================================================== */
+
+/* ---------- Panel ---------- */
+#dossier {
+  position: fixed;
+  top: 50%;
+  right: 32px;
+  transform: translate(40px, -50%);
+  z-index: 10;
+  width: min(420px, 36vw);
+  background: var(--panel);
+  border: 1px solid var(--stroke);
+  backdrop-filter: blur(18px) saturate(1.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+#dossier.open {
+  opacity: 1;
+  transform: translate(0, -50%);
+  pointer-events: auto;
+}
+
+/* Holographic corner accents */
+#dossier::before,
+#dossier::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-color: var(--cyan);
+}
+
+#dossier::before { top: -1px;    left: -1px;   border-top: 1px solid; border-left: 1px solid; }
+#dossier::after  { bottom: -1px; right: -1px;  border-bottom: 1px solid; border-right: 1px solid; }
+
+/* ---------- Panel header ---------- */
+.d-head {
+  padding: 16px 20px 14px;
+  border-bottom: 1px solid var(--stroke);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.d-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+.d-close {
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--stroke);
+  background: transparent;
+  color: var(--ink-dim);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.d-close:hover {
+  border-color: oklch(0.72 0.22 25);
+  color: oklch(0.72 0.22 25);
+}
+
+/* ---------- Panel body ---------- */
+.d-body {
+  padding: 20px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.d-year {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 8px;
+}
+
+.d-title {
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  margin: 0 0 6px;
+  line-height: 1.06;
+}
+
+.d-role {
+  font-size: 12.5px;
+  color: var(--cyan);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.08em;
+  margin-bottom: 16px;
+}
+
+.d-desc {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink-dim);
+  margin-bottom: 16px;
+  text-wrap: pretty;
+}
+
+/* ---------- Bullet items ---------- */
+.d-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.d-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 9px 11px;
+  border: 1px solid var(--stroke);
+  background: rgba(255, 255, 255, 0.02);
+  font-size: 12px;
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+.d-item .mark {
+  flex: 0 0 auto;
+  width: 7px;
+  height: 7px;
+  margin-top: 6px;
+  border: 1px solid var(--cyan);
+  transform: rotate(45deg);
+}
+
+.d-item.lit .mark {
+  background: var(--cyan);
+  box-shadow: 0 0 10px var(--cyan);
+}
+
+/* ---------- Stats row ---------- */
+.d-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--stroke);
+}
+
+.d-stat .k {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.d-stat .v {
+  font-size: 16px;
+  margin-top: 3px;
+  color: var(--ink);
+  font-weight: 400;
+}
+
+/* ---------- Tech chips ---------- */
+.d-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  padding: 4px 8px;
+  border: 1px solid var(--stroke);
+  color: var(--ink-dim);
+}
+
+/* ---------- Contact links (station only) ---------- */
+.d-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.d-contact-link {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1px solid var(--stroke);
+  background: rgba(255, 255, 255, 0.02);
+  font-size: 12px;
+  color: var(--ink);
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s;
+  cursor: pointer;
+}
+
+.d-contact-link:hover {
+  border-color: var(--stroke-hot);
+  background: rgba(130, 210, 255, 0.05);
+}
+
+.d-contact-link .d-link-icon {
+  flex: 0 0 auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  min-width: 44px;
+}
+
+.d-contact-link .d-link-val {
+  color: var(--ink-dim);
+  word-break: break-all;
+}
+
+/* ---------- Mobile bottom sheet ---------- */
+@media (max-width: 720px) {
+  #dossier {
+    top: auto;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    transform: translateY(100%);
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    max-height: 78vh;
+  }
+
+  #dossier.open {
+    transform: translateY(0);
+  }
+
+  #dossier::before,
+  #dossier::after { display: none; }
+
+  .d-body {
+    max-height: calc(78vh - 58px);
+    padding-bottom: calc(20px + var(--safe-b));
+  }
+
+  .d-title { font-size: 24px; }
+
+  /* Swipe grabber */
+  #dossier .grabber {
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 42px;
+    height: 4px;
+    background: var(--stroke);
+    border-radius: 2px;
+  }
+}

@@ -1,0 +1,108 @@
+/* =====================================================================
+   tweaks.css — Developer/artist settings panel (toggled with T key).
+   ===================================================================== */
+
+#tweaks {
+  position: fixed;
+  top: calc(58px + var(--safe-t));
+  right: 20px;
+  z-index: 30;
+  width: 260px;
+  background: var(--panel);
+  border: 1px solid var(--stroke);
+  backdrop-filter: blur(18px);
+  display: none;
+  padding: 14px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+#tweaks.open {
+  display: block;
+  animation: fadein 0.3s ease;
+}
+
+#tweaks h4 {
+  margin: 0 0 12px;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  font-weight: 500;
+}
+
+/* ---------- Setting groups ---------- */
+#tweaks .grp {
+  margin-bottom: 12px;
+}
+
+#tweaks label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 6px;
+}
+
+#tweaks input[type='range'] {
+  width: 100%;
+  accent-color: var(--cyan);
+}
+
+/* ---------- Palette swatches ---------- */
+#tweaks .sws {
+  display: flex;
+  gap: 6px;
+}
+
+#tweaks .sw {
+  flex: 1;
+  height: 24px;
+  border: 1px solid var(--stroke);
+  cursor: pointer;
+}
+
+#tweaks .sw.on {
+  border-color: var(--cyan);
+  box-shadow: 0 0 10px var(--cyan);
+}
+
+/* ---------- Toggles ---------- */
+#tweaks .toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  padding: 6px 0;
+  border-top: 1px dashed var(--stroke);
+}
+
+#tweaks .toggle button {
+  padding: 3px 9px;
+  background: transparent;
+  border: 1px solid var(--stroke);
+  color: var(--ink-dim);
+  font-family: inherit;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+}
+
+#tweaks .toggle button.on {
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+
+@media (max-width: 720px) {
+  #tweaks {
+    top: auto;
+    bottom: calc(140px + var(--safe-b));
+    right: 16px;
+    left: 16px;
+    width: auto;
+  }
+}

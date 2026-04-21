@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,user-scalable=no,viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#03050a" />
+    <title>Dhruv Parmar — Chronicle</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Styles — load order matters: base first, then components -->
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/hud.css" />
+    <link rel="stylesheet" href="css/dossier.css" />
+    <link rel="stylesheet" href="css/welcome.css" />
+    <link rel="stylesheet" href="css/tweaks.css" />
+  </head>
+  <body>
+    <!-- =====================================================================
+     Three.js canvas + atmosphere layers
+     ===================================================================== -->
+    <canvas id="world"></canvas>
+    <div id="vignette"></div>
+    <div id="grain"></div>
+    <div id="warp"></div>
+
+    <!-- =====================================================================
+     HUD — always-visible chrome
+     ===================================================================== -->
+    <div id="hud">
+      <!-- Corner ticks -->
+      <div class="corner tl"></div>
+      <div class="corner tr"></div>
+      <div class="corner bl"></div>
+      <div class="corner br"></div>
+
+      <!-- Top center bar -->
+      <div class="hud-top">
+        <span class="dot"></span>
+        <span id="hud-loc">LOC — DEEP SPACE</span>
+        <span>·</span>
+        <span id="hud-time" class="mono">T+00:00:00</span>
+      </div>
+
+      <!-- Top right: year + fragment counter -->
+      <div class="hud-right">
+        <div>Chronometer</div>
+        <div class="big mono" id="hud-year">2026</div>
+        <div id="hud-frag">Fragment 0 of 6</div>
+      </div>
+
+      <!-- Auto-drift toggle -->
+      <div class="pill" id="autodrift" title="Auto drift between planets">
+        <span class="tog"></span><span>Auto drift</span>
+      </div>
+
+      <!-- Identity card (desktop only) -->
+      <div class="id-card">
+        <div class="nm">Dhruv Parmar</div>
+        <div class="rl">Frontend Engineer · Traveler</div>
+      </div>
+
+      <!-- Memory counter (desktop only) -->
+      <div class="collected">
+        <div class="k">Memories</div>
+        <div class="v"><span id="col-n">0</span><em> / 6</em></div>
+      </div>
+
+      <!-- Targeting reticle (shown on hover) -->
+      <div id="reticle">
+        <svg
+          viewBox="0 0 70 70"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1"
+        >
+          <circle cx="35" cy="35" r="28" opacity="0.4" />
+          <circle cx="35" cy="35" r="22" opacity="0.7" />
+          <line x1="35" y1="0" x2="35" y2="8" />
+          <line x1="35" y1="62" x2="35" y2="70" />
+          <line x1="0" y1="35" x2="8" y2="35" />
+          <line x1="62" y1="35" x2="70" y2="35" />
+        </svg>
+        <div class="label mono" id="reticle-label">SCAN</div>
+      </div>
+
+      <!-- Mobile FAB prev/next -->
+      <button class="fab prev" id="fab-prev" aria-label="Previous planet">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.4"
+        >
+          <path d="M15 6l-6 6 6 6" />
+        </svg>
+      </button>
+      <button class="fab next" id="fab-next" aria-label="Next planet">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.4"
+        >
+          <path d="M9 6l6 6-6 6" />
+        </svg>
+      </button>
+
+      <!-- Bottom compass timeline -->
+      <div class="compass" id="compass">
+        <div class="bar"></div>
+        <!-- Nodes and labels are injected by ui.js -->
+      </div>
+    </div>
+
+    <!-- =====================================================================
+     Dossier — holographic info panel (right drawer on desktop,
+     bottom sheet on mobile). Content is populated by ui.js.
+     ===================================================================== -->
+    <div
+      id="dossier"
+      role="dialog"
+      aria-hidden="true"
+      aria-label="Fragment dossier"
+    >
+      <div class="grabber"></div>
+      <div class="d-head">
+        <span class="d-tag mono" id="d-tag">FRAGMENT · 001</span>
+        <button class="d-close" id="d-close" aria-label="Close dossier">
+          ×
+        </button>
+      </div>
+      <div class="d-body">
+        <div class="d-year mono" id="d-year">2024</div>
+        <h2 class="d-title" id="d-title">Title</h2>
+        <div class="d-role mono" id="d-role">Role</div>
+        <p class="d-desc" id="d-desc">Description</p>
+        <div class="d-items" id="d-items"></div>
+        <div class="d-stats" id="d-stats"></div>
+        <div class="d-chips" id="d-chips"></div>
+        <!-- #d-contact injected by ui.js for the station node -->
+      </div>
+    </div>
+
+    <!-- =====================================================================
+     Welcome overlay — shown on first load.
+     ===================================================================== -->
+    <div id="welcome" role="main">
+      <div class="welcome-stack">
+        <div class="welcome-eyebrow mono">
+          NGC 7293 · 2026.04.21 · ANOMALY DETECTED
+        </div>
+        <h1 class="welcome-title">
+          Welcome to<br /><em>Dhruv's Timeline.</em>
+        </h1>
+        <p class="welcome-sub">
+          You will be spectating his journey through time — five planets and a
+          contact station, scattered across space. Drift between them. Each one
+          remembers.
+        </p>
+
+        <div class="controls-grid">
+          <div class="ctrl">
+            <h5>Desktop</h5>
+            <div class="row">
+              <span class="k">Scroll</span><span>Move through time</span>
+            </div>
+            <div class="row">
+              <span class="k">Drag</span><span>Look around</span>
+            </div>
+            <div class="row">
+              <span class="k">Click</span><span>Enter planet</span>
+            </div>
+            <div class="row">
+              <span class="k">← →</span><span>Warp to next</span>
+            </div>
+          </div>
+          <div class="ctrl">
+            <h5>Mobile</h5>
+            <div class="row">
+              <span class="k">Swipe</span><span>Look around</span>
+            </div>
+            <div class="row">
+              <span class="k">Tap</span><span>Enter planet</span>
+            </div>
+            <div class="row">
+              <span class="k">Pinch</span><span>Skip timeline</span>
+            </div>
+            <div class="row">
+              <span class="k">FAB ‹ ›</span><span>Warp to next</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="cta" id="begin">
+          Enter the timeline <span class="arrow"></span>
+        </button>
+      </div>
+
+      <div class="welcome-meta">
+        <span>OBSERVER · SILENT</span>
+        <span>CHRONICLE · DHRUV PARMAR</span>
+        <span>v 5.0</span>
+      </div>
+    </div>
+
+    <!-- =====================================================================
+     Hints bar — fades after first interaction.
+     ===================================================================== -->
+    <div id="hints" aria-hidden="true">
+      <span><span class="kbd">←</span><span class="kbd">→</span> Warp</span>
+      <span><span class="kbd">Drag</span> Look</span>
+      <span><span class="kbd">Scroll</span> Travel</span>
+      <span><span class="kbd">Click</span> Planet to enter</span>
+      <span><span class="kbd">T</span> Tweaks</span>
+    </div>
+
+    <!-- =====================================================================
+     Tweaks panel — artist / developer settings (toggle with T).
+     ===================================================================== -->
+    <div id="tweaks" role="complementary" aria-label="Display tweaks">
+      <h4>Tweaks</h4>
+      <div class="grp">
+        <label>Accent</label>
+        <div class="sws" id="sw-palette">
+          <div
+            class="sw on"
+            data-p="cyan"
+            style="background: oklch(0.82 0.15 220)"
+            title="Cyan"
+          ></div>
+          <div
+            class="sw"
+            data-p="ember"
+            style="background: oklch(0.78 0.17 55)"
+            title="Ember"
+          ></div>
+          <div
+            class="sw"
+            data-p="violet"
+            style="background: oklch(0.68 0.22 295)"
+            title="Violet"
+          ></div>
+          <div
+            class="sw"
+            data-p="acid"
+            style="background: oklch(0.86 0.22 140)"
+            title="Acid"
+          ></div>
+        </div>
+      </div>
+      <div class="grp">
+        <label><span>Star density</span><span id="v-stars">1.00</span></label>
+        <input
+          type="range"
+          id="r-stars"
+          min="0.3"
+          max="2"
+          step="0.05"
+          value="1"
+        />
+      </div>
+      <div class="grp">
+        <label
+          ><span>Look sensitivity</span><span id="v-look">1.00</span></label
+        >
+        <input
+          type="range"
+          id="r-look"
+          min="0.3"
+          max="2"
+          step="0.05"
+          value="1"
+        />
+      </div>
+      <div class="grp">
+        <label><span>Nebula</span><span id="v-neb">0.70</span></label>
+        <input
+          type="range"
+          id="r-neb"
+          min="0"
+          max="1.2"
+          step="0.02"
+          value="0.7"
+        />
+      </div>
+      <div class="toggle">
+        <span>Quality</span>
+        <button id="t-quality">AUTO</button>
+      </div>
+    </div>
+
+    <!-- =====================================================================
+     Scripts — load order: data → Three.js → scene → ui
+     ===================================================================== -->
+    <script src="js/data.js"></script>
+    <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+    <script src="js/scene.js"></script>
+    <script src="js/ui.js"></script>
+  </body>
+</html>

@@ -1,0 +1,179 @@
+/* =====================================================================
+   welcome.css — Entry overlay with title, control cards, and CTA.
+   ===================================================================== */
+
+/* ---------- Overlay ---------- */
+#welcome {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(ellipse at center, rgba(8, 12, 22, 0.55), rgba(3, 5, 10, 0.94));
+  transition: opacity 1.2s ease;
+}
+
+#welcome.gone {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---------- Content stack ---------- */
+.welcome-stack {
+  text-align: center;
+  padding: 0 28px;
+  max-width: 760px;
+  animation: fadein 2.2s ease both;
+}
+
+.welcome-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 22px;
+}
+
+.welcome-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 300;
+  font-size: clamp(30px, 6.4vw, 60px);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.welcome-title em {
+  font-style: normal;
+  color: var(--cyan);
+  font-weight: 400;
+}
+
+.welcome-sub {
+  margin-top: 18px;
+  font-size: clamp(13px, 1.6vw, 15px);
+  line-height: 1.6;
+  color: var(--ink-dim);
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+  text-wrap: pretty;
+}
+
+/* ---------- Controls reference grid ---------- */
+.controls-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 36px auto 0;
+  max-width: 620px;
+  text-align: left;
+}
+
+@media (max-width: 620px) {
+  .controls-grid {
+    grid-template-columns: 1fr;
+    max-width: 360px;
+  }
+}
+
+.ctrl {
+  border: 1px solid var(--stroke);
+  padding: 16px;
+  background: rgba(8, 12, 22, 0.4);
+}
+
+.ctrl h5 {
+  margin: 0 0 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  font-weight: 500;
+}
+
+.ctrl .row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  font-size: 12.5px;
+  color: var(--ink);
+}
+
+.ctrl .row + .row {
+  border-top: 1px dashed var(--stroke);
+}
+
+.ctrl .row .k {
+  color: var(--ink-dim);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* ---------- Enter CTA button ---------- */
+.cta {
+  margin-top: 36px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 24px;
+  border: 1px solid var(--stroke-hot);
+  background: transparent;
+  color: var(--ink);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.cta:hover {
+  background: rgba(130, 210, 255, 0.08);
+  box-shadow: 0 0 32px rgba(130, 210, 255, 0.22);
+}
+
+.cta .arrow {
+  display: inline-block;
+  width: 16px;
+  height: 1px;
+  background: var(--cyan);
+  position: relative;
+}
+
+.cta .arrow::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  border-top: 1px solid var(--cyan);
+  border-right: 1px solid var(--cyan);
+  transform: translateY(-50%) rotate(45deg);
+}
+
+/* ---------- Footer meta ---------- */
+.welcome-meta {
+  position: absolute;
+  bottom: calc(20px + var(--safe-b));
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 28px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
